@@ -15,8 +15,23 @@ workflows:
           pod install
       - name: Build iOS app
         script: |
-          xcodebuild -workspace "$XCODE_WORKSPACE" -scheme "$XCODE_SCHEME" -configuration Release -sdk iphoneos -archivePath $HOME/build/PureVid.xcarchive archive
-          xcodebuild -exportArchive -archivePath $HOME/build/PureVid.xcarchive -exportOptionsPlist ios/exportOptions.plist -exportPath $HOME/build
+          xcodebuild -workspace "$XCODE_WORKSPACE" \
+            -scheme "$XCODE_SCHEME" \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath $HOME/build/PureVid.xcarchive archive
+
+          xcodebuild -exportArchive \
+            -archivePath $HOME/build/PureVid.xcarchive \
+            -exportPath $HOME/build \
+            -allowProvisioningUpdates \
+            -exportOptionsPlist <(echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+            <plist version=\"1.0\">
+              <dict>
+                <key>method</key>
+                <string>development</string>
+              </dict>
+            </plist>")
     artifacts:
       - build/*.ipa
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM.zip
