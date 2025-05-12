@@ -1,16 +1,14 @@
-import { initializeApp } from "firebase/app";
-
-// Only import analytics if you're running on web
-// For React Native (Expo), analytics is not needed and will cause errors
+// constants/firebaseConfig.js
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { EXPO_PUBLIC_FIREBASE_API_KEY } from "@env";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDwlu8FYkrQlgk_CAsTHL2akwr-1tYLP-I",
+  apiKey: EXPO_PUBLIC_FIREBASE_API_KEY,
   authDomain: "purefeed-app.firebaseapp.com",
   projectId: "purefeed-app",
-  storageBucket: "purefeed-app.firebasestorage.app",   // <-- leave as is for now
+  storageBucket: "purefeed-app.firebasestorage.app",
   messagingSenderId: "473871113614",
-  appId: "1:473871113614:web:6ec63a81b6ef8f1005d8df",
-  measurementId: "G-YZ7759Z1LP"
+  appId: "1:473871113614:web:6ec63a81b6ef8f1005d8df"
 };
 
-export const app = initializeApp(firebaseConfig);
+export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();

@@ -82,3 +82,4 @@ ios/Pods/
 .DS_Store
 *.keystore
 .env
+.env
