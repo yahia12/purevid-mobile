@@ -1,4 +1,4 @@
-platform :ios, '16.0'
+platform :ios, '12.0'
 use_modular_headers!
 
 require_relative '../node_modules/react-native/scripts/react_native_pods'
@@ -16,6 +16,7 @@ target 'PureVidAppCLI' do
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
         config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
+        config.build_settings.delete('IPHONEOS_DEPLOYMENT_TARGET')
       end
     end
   end
