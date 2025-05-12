@@ -25,13 +25,7 @@ workflows:
             -archivePath $HOME/build/PureVid.xcarchive \
             -exportPath $HOME/build \
             -allowProvisioningUpdates \
-            -exportOptionsPlist <(echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-            <plist version=\"1.0\">
-              <dict>
-                <key>method</key>
-                <string>development</string>
-              </dict>
-            </plist>")
+            -exportOptionsPlist ios/exportOptions.plist
     artifacts:
       - build/*.ipa
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM.zip
