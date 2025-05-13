@@ -17,9 +17,14 @@ target 'PureVidAppCLI' do
       target.build_configurations.each do |config|
         config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
         config.build_settings['SWIFT_VERSION'] = '5.0'
-        # DO NOT delete deployment target!
-        # config.build_settings.delete('IPHONEOS_DEPLOYMENT_TARGET') ← ❌ REMOVE THIS
+        # Do NOT delete deployment target here
+        # config.build_settings.delete('IPHONEOS_DEPLOYMENT_TARGET')
       end
     end
   end
+end
+
+# ✅ Fix: Prevent xcodebuild error when running outside macOS
+if `which xcodebuild`.strip.empty?
+  raise "xcodebuild not found – are you trying to run this on a non-Mac system?"
 end
