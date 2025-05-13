@@ -7,26 +7,37 @@ workflows:
         XCODE_SCHEME: "PureVidAppCLI"
       xcode: latest
       cocoapods: default
+
     scripts:
-      - name: Install dependencies
+      - name: Post-clone setup
         script: |
+          echo "📦 Installing NPM dependencies..."
           npm install
+          
+          echo "📦 Installing CocoaPods..."
           cd ios
           pod install
           cd ..
+          
+          echo "✅ Confirming .xcworkspace was created:"
+          ls ios/*.xcworkspace
+
       - name: Build iOS app
         script: |
+          echo "🚀 Starting iOS build..."
           xcodebuild -workspace "ios/$XCODE_WORKSPACE" \
             -scheme "$XCODE_SCHEME" \
             -configuration Release \
             -sdk iphoneos \
             -archivePath $HOME/build/PureVid.xcarchive archive
 
+          echo "📦 Exporting IPA..."
           xcodebuild -exportArchive \
             -archivePath $HOME/build/PureVid.xcarchive \
             -exportPath $HOME/build \
             -allowProvisioningUpdates \
             -exportOptionsPlist ios/exportOptions.plist
+
     artifacts:
       - build/*.ipa
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM.zip
